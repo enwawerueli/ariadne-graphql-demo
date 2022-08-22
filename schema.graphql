@@ -1,0 +1,60 @@
+"""
+The **User** type represents a user profile
+"""
+type User {
+  id: Int!
+  username: String!
+  email: String!
+  posts: [Post!]!
+  comments: [Comment!]!
+}
+
+"""
+The **Post** type represents a blog post
+
+A Post has an author (User) and may have any number of comments
+"""
+type Post {
+  id: Int!
+  title: String!
+  content: String!
+  author: User!
+  comments: [Comment!]!
+}
+
+"""
+The **Comment** type represents a comment on a post
+
+A Comment has an author (User), an associated post, and may have comments as well
+"""
+type Comment {
+  id: Int!
+  content: String!
+  post: Post!
+  author: User!
+  comments: [Comment!]!
+}
+
+type Query {
+  "Get all users"
+  users(page: Int = 1, size: Int = 30): [User!]!
+  "Get a single user"
+  user("User ID" id: Int!): User
+  "Get all posts"
+  posts(page: Int = 1, size: Int = 30): [Post!]!
+  "Get a single user"
+  post(id: Int!): Post
+  "Get all comments"
+  comments(page: Int = 1, size: Int = 30): [Comment!]!
+  "Get a single comment"
+  comment(id: Int!): Comment
+}
+
+type Mutation {
+  "Create a new user"
+  createUser(username: String!, email: String!): User!
+  "Create a new post"
+  createPost(title: String!, content: String!, userId: Int!): Post!
+  "Create a new comment"
+  createComment(content: String!, postId: Int!, userId: Int!): Comment!
+}
